@@ -1,6 +1,21 @@
+const https = require("https");
+const fs = require("fs");
 const express = require("express");
 
 const app = express();
+app.use(express.json());
+
+const port = 443;
+const options = {
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem"),
+};
+
+https.createServer(options, app).listen(port, () => {
+  console.log(
+    `Server is running on port ${port} at https://localhost:${port}/`
+  );
+});
 
 const user = [
   {
@@ -16,51 +31,73 @@ const user = [
   },
 ];
 
-app.get("/", function (req, res) {
-  const kidneys = user[0].kidneys;
-  const totalkidneys = kidneys.length;
+function counthealthy() {
+  var kidneys = user[0].kidneys;
+  var totalkidneys = kidneys.length;
   var healthykidneys = 0;
+  var unhealthykidneys = 0;
 
   for (let i = 0; i < totalkidneys; i++) {
     if (kidneys[i].ishealthy == true) healthykidneys += 1;
   }
-  console.log("Kidney fetched!");
+  unhealthykidneys = totalkidneys - healthykidneys;
+  return { totalkidneys, kidneys, unhealthykidneys, healthykidneys };
+}
 
-  const unhealthykidneys = totalkidneys - healthykidneys;
-
+app.get("/", function (req, res) {
+  const { totalkidneys, kidneys, unhealthykidneys, healthykidneys } =
+    counthealthy(); //Object Destructing: Creates on object by extracting properties from another object
   res.send({ totalkidneys, healthykidneys, unhealthykidneys, kidneys });
+  console.log("Kidney fetched!");
 });
 
-app.use(express.json());
-
 app.post("/", function (req, res) {
-  const newkidney = req.body.ishealthy;
-  user[0].kidneys.push({
-    ishealthy: newkidney,
-  });
-
-  res.send("Work done!");
-  console.log("Kidney added");
   console.log(req.body);
+  const newkidney = req.body.ishealthy;
+  if (newkidney === Boolean) {
+    user[0].kidneys.push({
+      ishealthy: newkidney,
+    });
+    res.send("Added new kidney to the vault!");
+    console.log("Kidney added");
+  } else {
+    res
+      .status(411)
+      .json({ msg: "ishealthy not boolean. Enter true/false only" });
+    console.log("Kidney not added. ishealthy is not boolean.");
+  }
 });
 
 app.put("/", function (req, res) {
-  for (let i = 0; i < user[0].kidneys.length; i++)
-    user[0].kidneys[i].ishealthy = true;
-  res.send("Updated kidneys");
+  const { unhealthykidneys } = counthealthy();
+  if (unhealthykidneys) {
+    for (let i = 0; i < user[0].kidneys.length; i++)
+      user[0].kidneys[i].ishealthy = true;
+    res.json({ msg: "No unhealthy kidney found!" });
+    console.log("Updated kidneys to healthy!");
+  } else {
+    res.status(411).json({ msg: "No unhealthy kidney found!" });
+  }
 });
 
 app.delete("/", function (req, res) {
   // user.pop();
-  const healthykidneys = [];
-  for (let i = 0; i < user[0].kidneys.length; i++) {
-    if (user[0].kidneys[i].ishealthy)
-      healthykidneys.push({
-        ishealthy: true,
-      });
+  const { unhealthykidneys } = counthealthy();
+  if (unhealthykidneys) {
+    const makehealthykidneys = [];
+    for (let i = 0; i < user[0].kidneys.length; i++) {
+      if (user[0].kidneys[i].ishealthy)
+        makehealthykidneys.push({
+          ishealthy: true,
+        });
+    }
+    user[0].kidneys = makehealthykidneys;
+    res.send("Deleted unhealthy kidneys, death is near!");
+    console.log("Deleted unhealthy kidneys, death is near!");
+  } else {
+    res.status(411).json({ msg: "No unhealthy kidneys found!" });
+    console.log("No unhealthy kidneys found!");
   }
-  user[0].kidneys = healthykidneys;
-  res.send("Deleted unhealthy kidneys, death is near!");
 });
 
 app.listen(3000, () => {

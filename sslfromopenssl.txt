@@ -1,0 +1,5 @@
+Command to generate self signed SSL/TLS certificate using OpenSSL for developement purposes for applications which requires secure connection over browser:
+
+"openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes"\
+
+OpenSSL is the command line toolkit
