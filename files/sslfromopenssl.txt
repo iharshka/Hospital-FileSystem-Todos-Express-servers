@@ -1,0 +1,12 @@
+Command to generate self signed SSL/TLS certificate using OpenSSL for local developement purposes for applications which requires secure connection over browser:
+
+"openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes"\
+
+openSSL: invokes the command line toolkit which provides cryptographic functions and utilities for working with SSL/TLS certificates 
+req: utility of the openssl toolkit, used for creating & processing certificate signing requests (CSR) & self signed certificates
+-x509: specifies the req to generate self signed certificates instead of CSR to certificates authority
+-newkey rsa:4096: specifies that a new RSA pair of 4096 bits should be generated along with certificates
+-keyout key.pem: saves the private key to output file key.pem
+-out cert.pem: specifies the output filename where self signed certificate will be saved
+-days 365: specifies the validity of the certificate
+-nodes: specifies the private key should not be encrypted with paraphrasing to enable easy usage in developement process 
