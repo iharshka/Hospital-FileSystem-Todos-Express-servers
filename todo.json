@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Market purchases",
+    "description": "Buy groceries",
+    "completed": false,
+    "id": 100
+  },
+  {
+    "title": "Academic Work",
+    "description": "Prepare VIth Semester Lab Reports of all Labarotories",
+    "completed": false,
+    "id": 101
+  },
+  {
+    "title": "third PUT call Finish Express Servers GitHub Repo",
+    "description": "Finish HKT's 2.5 & start-finish 2.6",
+    "completed": true,
+    "id": 102
+  }
+]
