@@ -29,6 +29,18 @@ Now, to run any of the files. Run the following command:
 
 node hospital.js
 
+or
+
+node fileServer.js
+
+or
+
+node todoServer.js
+
+or
+
+node storedTodoServer.js
+
 ```
 
 To initialize your own directory with Express, follow instructions at https://expressjs.com/en/starter/installing.html
@@ -40,6 +52,7 @@ To initialize your own directory with Express, follow instructions at https://ex
 - **_hospital.js_**: Added PUT/POST/GET/DELETE route handlers. Added validation to the PUT/POST/DELETE methods. Also, added SSL certificates when I found localhost:3000 is only working with http & not https
 - **_fileServer.js_**: file management system on the server. Made this to play how fs works server side.
 - **_todoServer.js_**: This one will be a bit complex. An app where I can see my todos of the day, add new ones, delete previous ones, modify previous ones etc.
+- **_storedTodoServer.js_**: This one was a bit more complex than todoServer.js because the todos was now saved in a file. Used Async await, Promises, fs to achieve this server after lot of bugs. The server is programmed nicely so that if it encounters, it shows proper logs + response message as well making debugging easy. Also, this server uses functions for reading & writing Todos rather than writing them again & again.
 
 ## Generating self-signed certificates
 
@@ -124,6 +137,6 @@ where d is the private exponent, m is the original message, n is the modulus der
 
 I'm Harsh, a problem solver, frontend developer & DevOps Eg, soon to be on backend and new techs (#Web3?, adaptive, u say). I want to work on a problem statement where I can cater to hundred thousands or million people or the one which keeps me stay up all night. Thank you for showing interest on this project. Neverming connecting with me on socials. See you soon.
 
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://iharshka.vercel.app/)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://iharshka.me/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/iharshka)
 [![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/iharshka)
